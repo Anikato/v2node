@@ -5,6 +5,10 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
+# LOCAL: install/update from this fork, not upstream wyx2685/v2node.
+GITHUB_REPO="Anikato/v2node"
+GITHUB_BRANCH="main"
+
 cur_dir=$(pwd)
 
 # check root
@@ -107,7 +111,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/wyx2685/v2node/master/script/install.sh)
+    bash <(curl -Ls "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/script/install.sh")
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -123,7 +127,7 @@ update() {
     else
         version=$2
     fi
-    bash <(curl -Ls https://raw.githubusercontent.com/wyx2685/v2node/master/script/install.sh) $version
+    bash <(curl -Ls "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/script/install.sh") $version
     if [[ $? == 0 ]]; then
         echo -e "${green}更新完成，已自动重启 v2node，请使用 v2node log 查看运行日志${plain}"
         exit
@@ -307,7 +311,7 @@ show_log() {
 }
 
 update_shell() {
-    wget -O /usr/bin/v2node -N --no-check-certificate https://raw.githubusercontent.com/wyx2685/v2node/master/script/v2node.sh
+    wget -O /usr/bin/v2node -N --no-check-certificate "https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/script/v2node.sh"
     if [[ $? != 0 ]]; then
         echo ""
         echo -e "${red}下载脚本失败，请检查本机能否连接 Github${plain}"
@@ -438,7 +442,8 @@ generate_v2node_config() {
             "ApiHost": "${api_host}",
             "NodeID": ${node_id},
             "ApiKey": "${api_key}",
-            "Timeout": 15
+            "Timeout": 15,
+            "SpeedLimit": 0
         }
     ]
 }
@@ -513,7 +518,7 @@ show_usage() {
 show_menu() {
     echo -e "
   ${green}v2node 后端管理脚本，${plain}${red}不适用于docker${plain}
---- https://github.com/wyx2685/v2node ---
+--- https://github.com/${GITHUB_REPO} ---
   ${green}0.${plain} 修改配置
 ————————————————
   ${green}1.${plain} 安装 v2node

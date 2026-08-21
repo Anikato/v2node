@@ -67,6 +67,8 @@ func (c *Controller) Start(x *core.V2Core) error {
 
 	// add limiter
 	l := limiter.AddLimiter(c.info.Type, c.tag, c.userList, c.aliveMap)
+	// LOCAL: node speed ceiling from local config; 0 = unlimited.
+	l.SpeedLimit = c.conf.SpeedLimit
 	c.limiter = l
 	if node.Security == panel.Tls {
 		err = c.requestCert()

@@ -28,6 +28,8 @@ type NodeConfig struct {
 	Key        string `mapstructure:"ApiKey"`
 	Timeout    int    `mapstructure:"Timeout"`
 	RetryCount *int   `mapstructure:"RetryCount"`
+	// LOCAL: node-wide speed ceiling in Mbps. 0 = unlimited.
+	SpeedLimit int `mapstructure:"SpeedLimit"`
 }
 
 func New() *Conf {
@@ -57,6 +59,10 @@ func (p *Conf) LoadFromPath(filePath string) error {
 	for i := range p.NodeConfigs {
 		if p.NodeConfigs[i].RetryCount == nil {
 			p.NodeConfigs[i].RetryCount = intPtr(DefaultNodeRetryCount)
+		}
+		// LOCAL: negative SpeedLimit is treated as unlimited (0).
+		if p.NodeConfigs[i].SpeedLimit < 0 {
+			p.NodeConfigs[i].SpeedLimit = 0
 		}
 	}
 	return nil

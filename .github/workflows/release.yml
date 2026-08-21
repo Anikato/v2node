@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - main # LOCAL: this fork's default branch is main
     paths:
       - "**/*.go"
       - "go.mod"
