@@ -29,6 +29,9 @@
 | 12 | 2026-08-21 | 修改 | `script/install.sh`、`script/v2node.sh` | 发布源 | `GITHUB_REPO=Anikato/v2node`，一键安装/更新从本 fork 的 Releases 拉包 | 中 | 保留变量；不要改回 wyx2685 |
 | 13 | 2026-08-21 | 修改 | `README.md` | 发布源 | 一键安装 URL 改为 Anikato/v2node `main` | 低 | 保留 |
 | 14 | 2026-08-21 | 修改 | `.github/workflows/release.yml` | 发布源 | push 触发增加 `main`（本 fork 默认分支） | 低 | 保留 `main` |
+| 15 | 2026-11-18 | 修改 | Go 依赖和 Xray-core | 内核 | 从既有 V2Board 兼容版同步到上游 5c2360f，保留 UniProxy 和 SpeedLimit | 中 | 维护 V2Board 配置及用户同步契约 |
+| 16 | 2026-11-18 | 修改 | script、README.md | 安装源 | 锁定 Anikato V2Board 发行标签，校验安装包，移除原版安装计数和防火墙菜单 | 中 | 安装和升级只读取明确的兼容标签 |
+| 17 | 2026-11-18 | 修改 | 发版工作流 | 发版 | 手动可指定已发布标签，检出并上传对应安装包 | 低 | 发布源与当前分支独立 |
 
 ## Git 远程
 
@@ -37,7 +40,7 @@ origin     https://github.com/Anikato/v2node.git
 upstream   https://github.com/wyx2685/v2node.git
 ```
 
-发版：`git push origin main` 后 `gh release create vX.Y.Z --generate-notes`，Actions「Build and Release」会把 `v2node-linux-64.zip` 等传到该 Release。面板一键安装读的是 **latest** Release。
+兼容版从 `v2board-compat` 分支打标签。创建对应发行页后，可用 `gh workflow run release.yml --ref v2board-compat -f release_tag=v0.4.7.anikato.v2board.1` 构建并上传安装包。面板安装脚本使用固定标签和对应的包校验值。
 
 ## 上游同步检查清单
 

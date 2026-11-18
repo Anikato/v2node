@@ -1,26 +1,16 @@
-# v2node
-A v2board backend base on moddified xray-core.
-一个基于修改版xray内核的V2board节点服务端。
+# v2node for V2Board
 
-**注意： 本 fork 基于 [wyx2685/v2node](https://github.com/wyx2685/v2node)，需搭配 [修改版V2board](https://github.com/wyx2685/v2board)。**
+基于 [wyx2685/v2node](https://github.com/wyx2685/v2node) 和修改版 Xray-core 的 V2Board 节点。节点通过 UniProxy 使用现有 ApiHost、NodeID 和 ApiKey。支持节点级 SpeedLimit，详见 [限速说明](docs/node-speed-limit.md)。
 
-发布仓库：[Anikato/v2node](https://github.com/Anikato/v2node)
+## 安装和更新
 
-## 软件安装
+优先从 V2Board 后台复制该节点的一键命令。在 Linux x86-64 或 ARM64 上也可下载此发行标签的脚本：
 
-### 一键安装
-
-```
-wget -N https://raw.githubusercontent.com/Anikato/v2node/main/script/install.sh && bash install.sh
+```bash
+curl -fLSs -o install.sh https://raw.githubusercontent.com/Anikato/v2node/v0.4.7.anikato.v2board.1/script/install.sh
+bash install.sh
 ```
 
-节点级限速（本地配置天花板，同步上游见变更表）：[docs/node-speed-limit.md](docs/node-speed-limit.md) · [docs/custom-changes.md](docs/custom-changes.md)
+脚本使用此标签发布的兼容包，检查 SHA-256 后才替换二进制。已有 V2Board 配置会保留。安装后运行 `v2node update` 使用同一版本，运行 `v2node version` 查看节点版本。
 
-## 构建
-``` bash
-GOEXPERIMENT=jsonv2 go build -v -o build_assets/v2node -trimpath -ldflags "-X 'github.com/wyx2685/v2node/cmd.version=$version' -s -w -buildid="
-```
-
-## Stars 增长记录
-
-[![Stargazers over time](https://starchart.cc/wyx2685/v2node.svg?variant=adaptive)](https://starchart.cc/wyx2685/v2node)
+同步和发版记录见 [定制记录](docs/custom-changes.md)。
